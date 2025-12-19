@@ -1,0 +1,65 @@
+.skills-section {
+  overflow: hidden;
+  padding: 100px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Section title */
+.skills-label {
+  margin-bottom: 40px;
+  color: #777;
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: 0.12em;
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* Scrolling track */
+.skills-track {
+  display: flex;
+  width: max-content;
+  animation: scroll 35s linear infinite;
+}
+
+.skills-section:hover .skills-track {
+  animation-play-state: paused;
+}
+
+/* Skill item — SCALED UP */
+.skill {
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(16px, 2vw, 20px); /* 🔥 THIS is the key */
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #bbb;
+  padding: 0 40px;
+  white-space: nowrap;
+  position: relative;
+}
+
+/* Orange separator dot */
+.skill::after {
+  content: "•";
+  color: var(--accent);
+  margin-left: 40px;
+  opacity: 0.7;
+}
+
+.skill:last-child::after {
+  content: "";
+}
+
+/* Optional subtle hover */
+.skill:hover {
+  color: #fff;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

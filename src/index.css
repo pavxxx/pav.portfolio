@@ -1,0 +1,65 @@
+/* CSS RESET */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+* {
+  cursor: none;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: #000;
+  color: #fff;
+  font-family: "Inter", system-ui, sans-serif;
+  line-height: 1.4;
+}
+
+/* Utility */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Monospace accent */
+.mono {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: #777;
+}
+
+:root {
+  --accent: #ff6a00; /* neon orange */
+  --border: #1f1f1f;
+}
+
+#neon-cursor {
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  opacity: 0.9;
+
+  box-shadow:
+    0 0 6px rgba(255, 106, 0, 0.8),
+    0 0 12px rgba(255, 106, 0, 0.6);
+
+  transition:
+    width 0.15s ease,
+    height 0.15s ease,
+    box-shadow 0.15s ease;
+}
+

@@ -1,18 +1,20 @@
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
-import SelectedWork from "../components/SelectedWork";
 import Skills from "../components/Skills";
-import Experience from "../components/Experience";
+import SelectedWork from "../components/SelectedWork";
+import MarqueePanel from "../components/MarqueePanel";
 import Footer from "../components/Footer";
+import Cursor from "../components/Cursor";
 
 function Home() {
   return (
     <>
+      <Cursor />
       <Navbar />
       <Hero />
-      <Skills />
-      <Experience />
+      <MarqueePanel />
       <SelectedWork />
+      <Skills />
       <Footer />
     </>
   );

@@ -1,42 +1,22 @@
-const skills = [
-  { name: "React", deg: "-2deg", color: "pink" },
-  { name: "JavaScript", deg: "3deg", color: "cyan" },
-  { name: "HTML & CSS", deg: "-1deg", color: "lime" },
-  { name: "Git", deg: "4deg", color: "pink" },
-  { name: "Figma", deg: "-3deg", color: "cyan" },
-  { name: "REST APIs", deg: "2deg", color: "lime" },
-  { name: "Accessibility", deg: "-4deg", color: "cyan" },
-  { name: "Node.js", deg: "1deg", color: "pink" },
-];
+import useReveal from "../hooks/useReveal";
 
 function Skills() {
-  return (
-    <section id="skills" className="container" style={{ padding: '100px 24px' }}>
-      <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-        <h2 className="section-title">My Toolbox</h2>
-        <p style={{ fontSize: '1.2rem', fontWeight: 600 }}>Tools I use to bring ideas to reality.</p>
-      </div>
+  const [ref, visible] = useReveal();
+  const tools = ["ReactJS", "TypeScript", "Vite", "TailwindCSS", "Figma", "REST APIs", "Node.js", "Express", "MongoDB", "Framer Motion", "Next.js", "GraphQL"];
 
-      <div style={{ 
-        display: 'flex', 
-        flexWrap: 'wrap', 
-        gap: '24px', 
-        justifyContent: 'center',
-        padding: '20px'
-      }}>
-        {skills.map((skill, index) => (
-          <div 
-            key={index} 
-            className={`neo-box hoverable sticker ${skill.color}`} 
-            style={{ 
-              padding: '16px 32px', 
-              fontSize: '1.2rem',
-              transform: `rotate(${skill.deg})`
-            }}
-          >
-            {skill.name}
-          </div>
-        ))}
+  return (
+    <section id="skills" className="section" style={{ borderBottom: 'none' }}>
+      <div className="container" ref={ref}>
+        <div className={`fade-up ${visible ? "is-visible" : ""}`}>
+           <h2 className="heading-md">My <span className="serif-italic" style={{ textTransform: 'lowercase' }}>Toolbox</span></h2>
+           <div className="skills-grid">
+             {tools.map((t, i) => (
+                <div key={i} className="skill-rect hover-target">
+                  {t}
+                </div>
+             ))}
+           </div>
+        </div>
       </div>
     </section>
   );

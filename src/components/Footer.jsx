@@ -1,81 +1,42 @@
+import useReveal from "../hooks/useReveal";
+
 function Footer() {
+  const [ref, visible] = useReveal();
+
   return (
-    <footer id="contact" style={{ 
-      background: 'var(--coral)', 
-      borderTop: 'var(--border-thick)',
-      marginTop: '100px',
-      overflow: 'hidden',
-      position: 'relative'
-    }}>
-      {/* Decorative large shapes */}
-      <div style={{
-        position: 'absolute',
-        top: '-50px',
-        right: '-50px',
-        width: '200px',
-        height: '200px',
-        background: 'var(--sunshine)',
-        borderRadius: '50%',
-        border: 'var(--border-thick)',
-        boxShadow: 'var(--shadow-main)'
-      }}></div>
-
-      <div className="container" style={{ padding: '100px 24px', position: 'relative', zIndex: 1 }}>
-        <div style={{ maxWidth: '800px' }}>
-          <h2 style={{ 
-            fontSize: 'clamp(4rem, 10vw, 7rem)', 
-            fontWeight: 900, 
-            lineHeight: 0.9,
-            marginBottom: '40px',
-            textTransform: 'uppercase'
-          }}>
-            Let's <br /> Collaborate
-          </h2>
-          
-          <p style={{ 
-            fontSize: '1.5rem', 
-            fontWeight: 800, 
-            marginBottom: '48px',
-            maxWidth: '600px'
-          }}>
-            Have a crazy idea? Available for freelance work or full-time roles. Let's build something epic together.
+    <section id="contact" className="section" style={{ minHeight: '50vh', backgroundColor: 'var(--black)', color: 'var(--beige)', borderTop: 'none', borderBottom: 'none' }}>
+      <div className="container" ref={ref}>
+        <div className={`fade-up ${visible ? "is-visible" : ""}`} style={{ textAlign: 'center' }}>
+          <h2 className="heading-md" style={{ marginBottom: '20px' }}>Let's Build <span className="serif-italic" style={{ textTransform: 'lowercase' }}>Together</span></h2>
+          <p className="mono-small hover-target" style={{ margin: '0 auto 40px', maxWidth: '500px', opacity: 0.8, textTransform: 'none' }}>
+            I'm currently available for freelance work and new opportunities.
+            If you have a project that needs some creative magic, I'd love to hear about it.
           </p>
+          <a href="mailto:Pavithra020906@gmail.com" className="hover-target" style={{
+            display: 'inline-block',
+            padding: '16px 40px',
+            background: 'var(--beige)',
+            color: 'var(--black)',
+            textDecoration: 'none',
+            fontFamily: '"JetBrains Mono", monospace',
+            fontWeight: 800,
+            fontSize: '1.1rem',
+            textTransform: 'uppercase',
+            transition: 'opacity 0.3s ease',
+            border: '1px solid var(--beige)'
+          }}
+            onMouseOver={(e) => { e.target.style.background = 'transparent'; e.target.style.color = 'var(--beige)'; }}
+            onMouseOut={(e) => { e.target.style.background = 'var(--beige)'; e.target.style.color = 'var(--black)'; }}
+          >
+            Let's Connect
+          </a>
 
-          <div style={{ marginBottom: '80px' }}>
-            <a href="mailto:pavithra@example.com" className="neo-btn lavender" style={{ 
-              fontSize: '1.5rem', 
-              padding: '24px 48px',
-              borderRadius: '50px'
-            }}>
-              Shoot me an email!
-            </a>
+          <div className="mono-small" style={{ marginTop: '80px', paddingTop: '40px', borderTop: '1px solid rgba(233,229,220,0.2)', opacity: 0.6 }}>
+            &copy; 2026 Pavithra. Crafted with passion.
           </div>
-        </div>
-
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center', 
-          flexWrap: 'wrap',
-          gap: '24px',
-          borderTop: 'var(--border-thick)',
-          paddingTop: '32px',
-          marginTop: '40px'
-        }}>
-          <h3 style={{ fontSize: '1.8rem', fontWeight: 900, textTransform: 'uppercase' }}>Pavithra</h3>
-          
-          <div style={{ display: 'flex', gap: '20px' }}>
-            <a href="#" style={{ fontWeight: 800, color: 'var(--black)', textDecoration: 'none', textTransform: 'uppercase' }}>Twitter</a>
-            <a href="#" style={{ fontWeight: 800, color: 'var(--black)', textDecoration: 'none', textTransform: 'uppercase' }}>GitHub</a>
-            <a href="#" style={{ fontWeight: 800, color: 'var(--black)', textDecoration: 'none', textTransform: 'uppercase' }}>LinkedIn</a>
-          </div>
-
-          <p style={{ fontWeight: 800 }}>
-            © 2026 Build with passion.
-          </p>
         </div>
       </div>
-    </footer>
+    </section>
   );
 }
 

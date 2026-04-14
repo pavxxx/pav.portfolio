@@ -36,6 +36,27 @@ function SelectedWork() {
             <ProjectCard key={index} project={project} index={index} />
           ))}
         </div>
+        
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '4rem' }}>
+          <a 
+            href="https://github.com/pavxxx" 
+            target="_blank" 
+            rel="noreferrer" 
+            className="btn-invert hover-target" 
+            style={{
+              display: 'inline-block',
+              padding: '12px 32px',
+              textDecoration: 'none',
+              fontWeight: 600,
+              fontSize: '0.9rem',
+              textTransform: 'uppercase',
+              transition: 'all 0.3s ease',
+              border: '1px solid var(--black)'
+            }}
+          >
+            See More Projects
+          </a>
+        </div>
       </div>
     </section>
   );

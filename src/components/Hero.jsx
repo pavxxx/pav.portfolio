@@ -118,95 +118,97 @@ function Hero() {
   return (
     <section id="home" className="section" style={{ minHeight: "100vh", paddingTop: "140px", display: "flex", alignItems: "center" }}>
       <div className="container">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}
-        >
-          {/* Label row */}
-          <motion.div variants={itemVariants} style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px", justifyContent: "center" }}>
-            <span style={{ display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", background: "var(--accent)", flexShrink: 0 }} />
-            <span className="mono-small" style={{ fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.2em" }}>
-              BY PAVITHRA &mdash; PORTFOLIO 2026
-            </span>
-            <span style={{ display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", background: "var(--accent)", flexShrink: 0 }} />
-          </motion.div>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "60px" }}>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            style={{ flex: "1 1 500px", minWidth: "300px" }}
+          >
+            {/* Label row */}
+            <motion.div variants={itemVariants} style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
+              <span style={{ display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", background: "var(--accent)", flexShrink: 0 }} />
+              <span className="mono-small" style={{ fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.2em" }}>
+                BY PAVITHRA &mdash; PORTFOLIO 2026
+              </span>
+            </motion.div>
 
-          {/* Glitch heading — centered */}
-          <motion.div variants={itemVariants} style={{ marginBottom: "48px" }}>
-            <GlitchHeading
-              className="heading-lg"
+            {/* Glitch heading */}
+            <motion.div variants={itemVariants} style={{ marginBottom: "40px" }}>
+              <GlitchHeading
+                className="heading-lg"
+                style={{
+                  fontSize: "clamp(3rem, 7vw, 6.5rem)",
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.0,
+                }}
+              >
+                UI / UX<br />
+                <span className="serif-italic" style={{ color: "var(--black)", textTransform: "lowercase" }}>&amp; frontend</span><br />
+                DEVELOPER.
+              </GlitchHeading>
+            </motion.div>
+
+            {/* Info strip */}
+            <motion.div
+              variants={itemVariants}
               style={{
-                fontSize: "clamp(3.2rem, 8vw, 7.5rem)",
-                letterSpacing: "-0.03em",
-                lineHeight: 1.0,
-                textAlign: "center",
+                position: "relative",
+                display: "flex",
+                flexWrap: "wrap",
+                padding: "30px 0",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "20px",
+                marginBottom: "40px",
               }}
             >
-              UI / UX<br />
-              <span className="serif-italic" style={{ color: "var(--black)", textTransform: "lowercase" }}>&amp; frontend</span><br />
-              DEVELOPER.
-            </GlitchHeading>
-          </motion.div>
+              <motion.div variants={lineVariants} style={{ position: "absolute", top: 0, left: 0, right: 0, height: "1px", backgroundColor: "var(--black)", originX: 0 }} />
+              <motion.div variants={lineVariants} style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "1px", backgroundColor: "var(--black)", originX: 0 }} />
 
-          {/* Info strip */}
-          <motion.div
-            variants={itemVariants}
-            style={{
-              position: "relative",
-              display: "flex",
-              flexWrap: "wrap",
-              padding: "28px 0",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "40px",
-              marginBottom: "40px",
-              width: "100%",
-              maxWidth: "860px",
-            }}
-          >
-            <motion.div variants={lineVariants} style={{ position: "absolute", top: 0, left: 0, right: 0, height: "1px", backgroundColor: "var(--black)", originX: 0 }} />
-            <motion.div variants={lineVariants} style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "1px", backgroundColor: "var(--black)", originX: 0 }} />
-
-            {/* Availability badge */}
-            <div className="mono-small" style={{ lineHeight: 1.8 }}>
-              PAVITHRA &copy; 2026&nbsp;&nbsp;
-              <span style={{ display: "inline-flex", alignItems: "center", gap: "7px" }}>
-                <span style={{ position: "relative", display: "inline-block", width: "8px", height: "8px", flexShrink: 0 }}>
-                  <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#4ade80", animation: "pingPulse 1.8s ease-in-out infinite" }} />
-                  <span style={{ position: "absolute", inset: "1px", borderRadius: "50%", background: "#22c55e" }} />
+              {/* Left: availability */}
+              <div className="mono-small" style={{ textAlign: "left", lineHeight: 1.8 }}>
+                PAVITHRA &copy; 2026<br />
+                <span style={{ display: "inline-flex", alignItems: "center", gap: "7px", marginTop: "2px" }}>
+                  <span style={{ position: "relative", display: "inline-block", width: "8px", height: "8px", flexShrink: 0 }}>
+                    <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#4ade80", animation: "pingPulse 1.8s ease-in-out infinite" }} />
+                    <span style={{ position: "absolute", inset: "1px", borderRadius: "50%", background: "#22c55e" }} />
+                  </span>
+                  AVAILABLE FOR HIRE
                 </span>
-                AVAILABLE FOR HIRE
-              </span>
-            </div>
+              </div>
 
-            {/* Stat counters */}
-            <div style={{ display: "flex", gap: "40px", alignItems: "center" }}>
-              <StatCounter value={4} label="Projects" suffix="+" />
-              <div style={{ width: "1px", height: "40px", background: "rgba(18,18,18,0.15)" }} />
-              <StatCounter value={10} label="Technologies" suffix="+" />
-            </div>
+              {/* Center: stat counters */}
+              <div style={{ display: "flex", gap: "40px", alignItems: "center" }}>
+                <StatCounter value={4} label="Projects" suffix="+" />
+                <div style={{ width: "1px", height: "40px", background: "rgba(18,18,18,0.15)" }} />
+                <StatCounter value={10} label="Technologies" suffix="+" />
+              </div>
 
-            {/* Magnetic CTA */}
-            <MagneticButton
-              href="#work"
-              style={{ padding: "12px 28px", textDecoration: "none", display: "inline-block", fontWeight: 600, fontSize: "0.9rem", textTransform: "uppercase" }}
+              {/* Right: magnetic CTA */}
+              <MagneticButton
+                href="#work"
+                style={{ padding: "12px 24px", textDecoration: "none", display: "inline-block", fontWeight: 600, fontSize: "0.9rem", textTransform: "uppercase" }}
+              >
+                View Works
+              </MagneticButton>
+            </motion.div>
+
+            {/* Typewriter tagline */}
+            <motion.div
+              variants={itemVariants}
+              className="serif-italic"
+              style={{ fontSize: "clamp(1rem, 2vw, 1.4rem)", opacity: 0.65, maxWidth: "520px", lineHeight: 1.4, minHeight: "1.6em" }}
             >
-              View Works
-            </MagneticButton>
+              {tagline}
+              <span style={{ borderRight: "1.5px solid var(--black)", marginLeft: "2px", animation: "caretBlink 0.9s step-end infinite" }} />
+            </motion.div>
           </motion.div>
-
-          {/* Typewriter tagline */}
-          <motion.div
-            variants={itemVariants}
-            className="serif-italic"
-            style={{ fontSize: "clamp(1rem, 2vw, 1.4rem)", opacity: 0.6, lineHeight: 1.5, minHeight: "1.6em", textAlign: "center" }}
-          >
-            {tagline}
-            <span style={{ borderRight: "1.5px solid var(--black)", marginLeft: "2px", animation: "caretBlink 0.9s step-end infinite" }} />
-          </motion.div>
-        </motion.div>
+          
+          {/* Right column empty as requested */}
+          <div style={{ display: "flex", alignItems: "center", paddingTop: "60px", flexShrink: 0 }}>
+          </div>
+        </div>
       </div>
 
       <style>{`

@@ -1,100 +1,226 @@
-// eslint-disable-next-line no-unused-vars
+import { useEffect, useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 
+/* ── Count-up hook ── */
+function useCountUp(target, duration = 1200) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    let start = null;
+    const step = (ts) => {
+      if (!start) start = ts;
+      const progress = Math.min((ts - start) / duration, 1);
+      setCount(Math.floor(progress * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    const raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [target, duration]);
+  return count;
+}
+
+function StatCounter({ value, label, suffix = "+" }) {
+  const count = useCountUp(value, 1400);
+  return (
+    <div className="hero-stat">
+      <span className="hero-stat-number">{count}{suffix}</span>
+      <span className="hero-stat-label">{label}</span>
+    </div>
+  );
+}
+
+/* ── Typewriter hook ── */
+function useTypewriter(text, speed = 40, delay = 1800) {
+  const [displayed, setDisplayed] = useState("");
+  useEffect(() => {
+    let i = 0;
+    setDisplayed("");
+    const timeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        i++;
+        setDisplayed(text.slice(0, i));
+        if (i >= text.length) clearInterval(interval);
+      }, speed);
+      return () => clearInterval(interval);
+    }, delay);
+    return () => clearTimeout(timeout);
+  }, [text, speed, delay]);
+  return displayed;
+}
+
+/* ── Magnetic button ── */
+function MagneticButton({ href, children, style }) {
+  const ref = useRef(null);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = useCallback((e) => {
+    const rect = ref.current.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    setPos({ x: (e.clientX - cx) * 0.28, y: (e.clientY - cy) * 0.28 });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => setPos({ x: 0, y: 0 }), []);
+
+  return (
+    <motion.a
+      ref={ref}
+      href={href}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      animate={{ x: pos.x, y: pos.y }}
+      transition={{ type: "spring", stiffness: 350, damping: 22 }}
+      whileTap={{ scale: 0.94 }}
+      className="btn-invert hover-target"
+      style={style}
+    >
+      {children}
+    </motion.a>
+  );
+}
+
+/* ── Glitch heading ── */
+function GlitchHeading({ children, className, style }) {
+  const [glitch, setGlitch] = useState(false);
+  return (
+    <h1
+      className={className}
+      style={{ ...style, position: "relative", cursor: "default" }}
+      onMouseEnter={() => { setGlitch(true); setTimeout(() => setGlitch(false), 500); }}
+    >
+      {children}
+      {glitch && (
+        <>
+          <span aria-hidden style={{ position: "absolute", inset: 0, color: "var(--accent)", clipPath: "inset(30% 0 40% 0)", transform: "translateX(-3px)", opacity: 0.7, animation: "glitch1 0.2s steps(1) forwards", pointerEvents: "none" }}>{children}</span>
+          <span aria-hidden style={{ position: "absolute", inset: 0, color: "var(--black)", clipPath: "inset(60% 0 10% 0)", transform: "translateX(3px)", opacity: 0.5, animation: "glitch2 0.25s steps(1) forwards", pointerEvents: "none" }}>{children}</span>
+        </>
+      )}
+    </h1>
+  );
+}
+
+/* ── Hero ── */
 function Hero() {
+  const tagline = useTypewriter("Building aesthetic, robust, and scalable web experiences.", 40, 1800);
+
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1
-      }
-    }
+    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
   };
-
   const itemVariants = {
-    hidden: { opacity: 0, y: 35 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
-    }
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
   };
-
   const lineVariants = {
     hidden: { scaleX: 0 },
-    visible: {
-      scaleX: 1,
-      transition: { duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.4 }
-    }
+    visible: { scaleX: 1, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.3 } },
   };
 
   return (
-    <section id="home" className="section" style={{ minHeight: '100vh', paddingTop: '160px', display: 'flex', alignItems: 'center' }}>
-      <div className="container" style={{ position: 'relative' }}>
-        <motion.div 
+    <section id="home" className="section" style={{ minHeight: "100vh", paddingTop: "140px", display: "flex", alignItems: "center" }}>
+      <div className="container">
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          style={{ width: '100%' }}
+          style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}
         >
-          <motion.div 
-            variants={itemVariants}
-            className="mono-small" 
-            style={{ marginBottom: '20px', fontSize: '0.9rem', fontWeight: 700, letterSpacing: '0.2em', color: 'var(--black)' }}
-          >
-            BY PAVITHRA &mdash; PORTFOLIO 2026
+          {/* Label row */}
+          <motion.div variants={itemVariants} style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px", justifyContent: "center" }}>
+            <span style={{ display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", background: "var(--accent)", flexShrink: 0 }} />
+            <span className="mono-small" style={{ fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.2em" }}>
+              BY PAVITHRA &mdash; PORTFOLIO 2026
+            </span>
+            <span style={{ display: "inline-block", width: "8px", height: "8px", borderRadius: "50%", background: "var(--accent)", flexShrink: 0 }} />
           </motion.div>
-          
-          <motion.h1 
-            variants={itemVariants}
-            className="heading-lg" 
-            style={{ fontSize: 'clamp(3rem, 7vw, 6.5rem)', letterSpacing: '-0.03em', lineHeight: 1.0, marginBottom: '40px' }}
-          >
-            UI / UX<br />
-            <span className="serif-italic" style={{ color: 'var(--black)', textTransform: 'lowercase' }}>&amp; frontend</span><br />
-            DEVELOPMENT.
-          </motion.h1>
 
-          <motion.div 
-            variants={itemVariants}
-            style={{ position: 'relative', display: 'flex', flexWrap: 'wrap', padding: '25px 0', alignItems: 'center', justifyContent: 'space-between', gap: '20px', marginBottom: '40px' }}
-          >
-            {/* Animated Borders */}
-            <motion.div 
-              variants={lineVariants}
-              style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', backgroundColor: 'var(--black)', originX: 0 }}
-            />
-            <motion.div 
-              variants={lineVariants}
-              style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '2px', backgroundColor: 'var(--black)', originX: 0 }}
-            />
+          {/* Glitch heading — centered */}
+          <motion.div variants={itemVariants} style={{ marginBottom: "48px" }}>
+            <GlitchHeading
+              className="heading-lg"
+              style={{
+                fontSize: "clamp(3.2rem, 8vw, 7.5rem)",
+                letterSpacing: "-0.03em",
+                lineHeight: 1.0,
+                textAlign: "center",
+              }}
+            >
+              UI / UX<br />
+              <span className="serif-italic" style={{ color: "var(--black)", textTransform: "lowercase" }}>&amp; frontend</span><br />
+              DEVELOPER.
+            </GlitchHeading>
+          </motion.div>
 
-            <div className="mono-small" style={{ textAlign: 'left' }}>
-              PAVITHRA &copy; 2026<br />
-              AVAILABLE FOR HIRE
+          {/* Info strip */}
+          <motion.div
+            variants={itemVariants}
+            style={{
+              position: "relative",
+              display: "flex",
+              flexWrap: "wrap",
+              padding: "28px 0",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "40px",
+              marginBottom: "40px",
+              width: "100%",
+              maxWidth: "860px",
+            }}
+          >
+            <motion.div variants={lineVariants} style={{ position: "absolute", top: 0, left: 0, right: 0, height: "1px", backgroundColor: "var(--black)", originX: 0 }} />
+            <motion.div variants={lineVariants} style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "1px", backgroundColor: "var(--black)", originX: 0 }} />
+
+            {/* Availability badge */}
+            <div className="mono-small" style={{ lineHeight: 1.8 }}>
+              PAVITHRA &copy; 2026&nbsp;&nbsp;
+              <span style={{ display: "inline-flex", alignItems: "center", gap: "7px" }}>
+                <span style={{ position: "relative", display: "inline-block", width: "8px", height: "8px", flexShrink: 0 }}>
+                  <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#4ade80", animation: "pingPulse 1.8s ease-in-out infinite" }} />
+                  <span style={{ position: "absolute", inset: "1px", borderRadius: "50%", background: "#22c55e" }} />
+                </span>
+                AVAILABLE FOR HIRE
+              </span>
             </div>
 
-            <div className="serif-italic" style={{ fontSize: 'clamp(1.2rem, 3vw, 2rem)', textAlign: 'center', maxWidth: '400px', lineHeight: 1.2 }}>
-              Building aesthetic, robust, and scalable web experiences.
+            {/* Stat counters */}
+            <div style={{ display: "flex", gap: "40px", alignItems: "center" }}>
+              <StatCounter value={4} label="Projects" suffix="+" />
+              <div style={{ width: "1px", height: "40px", background: "rgba(18,18,18,0.15)" }} />
+              <StatCounter value={10} label="Technologies" suffix="+" />
             </div>
 
-            <motion.a 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              href="#work" 
-              className="btn-invert hover-target" 
-              style={{ padding: '12px 24px', textDecoration: 'none', display: 'inline-block', fontWeight: 600, fontSize: '0.9rem', textTransform: 'uppercase', transition: 'all 0.3s ease' }}
+            {/* Magnetic CTA */}
+            <MagneticButton
+              href="#work"
+              style={{ padding: "12px 28px", textDecoration: "none", display: "inline-block", fontWeight: 600, fontSize: "0.9rem", textTransform: "uppercase" }}
             >
               View Works
-            </motion.a>
+            </MagneticButton>
+          </motion.div>
+
+          {/* Typewriter tagline */}
+          <motion.div
+            variants={itemVariants}
+            className="serif-italic"
+            style={{ fontSize: "clamp(1rem, 2vw, 1.4rem)", opacity: 0.6, lineHeight: 1.5, minHeight: "1.6em", textAlign: "center" }}
+          >
+            {tagline}
+            <span style={{ borderRight: "1.5px solid var(--black)", marginLeft: "2px", animation: "caretBlink 0.9s step-end infinite" }} />
           </motion.div>
         </motion.div>
       </div>
+
+      <style>{`
+        @keyframes pingPulse {
+          0%, 100% { transform: scale(1);   opacity: 0.8; }
+          50%       { transform: scale(2.2); opacity: 0; }
+        }
+        @keyframes caretBlink {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0; }
+        }
+      `}</style>
     </section>
   );
 }
 
 export default Hero;
-

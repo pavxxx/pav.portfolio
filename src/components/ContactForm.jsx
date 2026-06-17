@@ -75,9 +75,9 @@ function ContactForm() {
 
           {/* Info Side */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
             style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
           >
             <div>
@@ -114,9 +114,9 @@ function ContactForm() {
 
           {/* Form Side */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
           >
             {status.success ? (
               <motion.div

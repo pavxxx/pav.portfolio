@@ -1,3 +1,5 @@
+import Background from "../components/Background";
+import ScrollProgressBar from "../components/ScrollProgressBar";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Skills from "../components/Skills";
@@ -10,6 +12,8 @@ import Footer from "../components/Footer";
 function Home() {
   return (
     <>
+      <ScrollProgressBar />
+      <Background />
       <Navbar />
       <Hero />
       <MarqueePanel />

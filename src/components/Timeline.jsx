@@ -13,9 +13,9 @@ function TimelineCard({ item, index, type }) {
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.6, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+      transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
       className="solid-card hover-target"
       style={{
         marginBottom: "20px",
@@ -57,11 +57,12 @@ function Timeline() {
       <div className="container" style={{ maxWidth: "1200px" }}>
         {/* Section Title */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           style={{ marginBottom: "60px" }}
         >
+          <div className="section-accent-bar" />
           <h2 className="heading-md">
             MY <span className="serif-italic" style={{ textTransform: "lowercase" }}>Journey</span>
           </h2>

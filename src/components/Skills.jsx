@@ -19,22 +19,26 @@ function SkillCard({ category, index }) {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { opacity: 0, y: 4 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 0.3, ease: "easeOut" }
     }
   };
 
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="skills-card hover-target"
+      initial={{ opacity: 0, y: 10 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+      transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
+      className="skills-card skill-fill-card hover-target"
     >
+      {/* Corner Brackets */}
+      <div className="corner-tl" />
+      <div className="corner-br" />
+
       {/* Top Title and Index Row */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '35px' }}>
         <h3 className="serif-italic" style={{ fontSize: 'clamp(2rem, 3.5vw, 2.6rem)', fontWeight: 400, margin: 0, textTransform: 'none' }}>
@@ -71,15 +75,16 @@ function Skills() {
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   return (
-    <section id="skills" className="section" ref={sectionRef} style={{ borderBottom: 'none' }}>
+    <section id="skills" className="section" ref={sectionRef}>
       <div className="container" style={{ maxWidth: '1200px' }}>
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           style={{ marginBottom: '50px' }}
         >
+          <div className="section-accent-bar" />
           <h2 className="heading-md" style={{ marginBottom: '15px' }}>
             My <span className="serif-italic" style={{ textTransform: 'lowercase' }}>Toolbox</span>
           </h2>
@@ -111,33 +116,39 @@ function Skills() {
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
           position: relative;
         }
+        .skills-card .corner-tl,
+        .skills-card .corner-br {
+          transition: border-color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .skills-card:hover .corner-tl,
+        .skills-card:hover .corner-br {
+          border-color: var(--beige);
+        }
         .skills-card:hover {
-          background: var(--black);
           color: var(--beige);
         }
         .skill-pill {
           border: 1px solid var(--black);
           border-radius: 0;
           padding: 8px 18px;
-          font-size: 0.9rem;
+          font-size: 0.85rem;
           font-family: 'Inter', sans-serif;
           font-weight: 500;
-          transition: all 0.3s ease;
+          transition: all 0.25s ease;
           background: transparent;
           color: var(--black);
         }
         .skills-card:hover .skill-pill {
-          border-color: var(--beige);
+          border-color: rgba(233,229,220,0.4);
           color: var(--beige);
         }
         .skill-pill:hover {
           background: var(--black) !important;
           color: var(--beige) !important;
           border-color: var(--black) !important;
-          transform: scale(1.05);
+          transform: translateY(-2px);
         }
         .skills-card:hover .skill-pill:hover {
           background: var(--beige) !important;

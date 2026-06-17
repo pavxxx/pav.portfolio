@@ -3,8 +3,10 @@
 :root {
   --black: #121212;
   --beige: #e9e5dc;
+  --beige-dark: #dedad0;
   --grey: #b5b3ad;
   --white: #ffffff;
+  --accent: #8B5E3C;
 }
 
 *, *::before, *::after {
@@ -20,6 +22,9 @@ body {
   line-height: 1.4;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  /* Grain texture overlay using SVG noise */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
 }
 
 /* Custom Cursor */
@@ -291,4 +296,318 @@ body {
     font-size: clamp(1.8rem, 6vw, 2.5rem) !important;
   }
 }
+
+/* Background Patterns & Animations */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(18, 18, 18, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(18, 18, 18, 0.055) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: -10;
+}
+
+.bg-dots {
+  position: fixed;
+  top: -50px;
+  left: -50px;
+  width: calc(100% + 100px);
+  height: calc(100% + 100px);
+  background-image: radial-gradient(rgba(18, 18, 18, 0.04) 1.2px, transparent 1.2px);
+  background-size: 30px 30px;
+  pointer-events: none;
+  z-index: -9;
+  animation: bg-drift 180s linear infinite;
+}
+
+@keyframes bg-drift {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-30px, -30px); }
+}
+
+.bg-glow {
+  position: fixed;
+  width: 70vh;
+  height: 70vh;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 94, 60, 0.04) 0%, rgba(233, 229, 220, 0.0) 70%);
+  pointer-events: none;
+  z-index: -8;
+  animation: bg-floatingGlow 35s ease-in-out infinite alternate;
+}
+
+@keyframes bg-floatingGlow {
+  0% { top: -10%; left: -10%; }
+  50% { top: 50%; left: 80%; }
+  100% { top: 80%; left: 20%; }
+}
+
+/* Grid Traveling Balls */
+.grid-ball-1, .grid-ball-2, .grid-ball-3 {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -7;
+  top: 0;
+  left: 0;
+}
+
+.grid-ball-1 {
+  width: 7px;
+  height: 7px;
+  background-color: var(--black);
+  opacity: 0.35;
+  box-shadow: 0 0 0 3px rgba(18,18,18,0.08), 0 0 12px rgba(18,18,18,0.12);
+  animation: grid-travel-1 26s infinite linear;
+}
+
+.grid-ball-2 {
+  width: 5px;
+  height: 5px;
+  background-color: var(--accent);
+  opacity: 0.45;
+  box-shadow: 0 0 0 3px rgba(139,94,60,0.1), 0 0 14px rgba(139,94,60,0.18);
+  animation: grid-travel-2 38s infinite linear;
+}
+
+.grid-ball-3 {
+  width: 4px;
+  height: 4px;
+  background-color: var(--black);
+  opacity: 0.2;
+  box-shadow: 0 0 8px rgba(18,18,18,0.1);
+  animation: grid-travel-3 52s infinite linear;
+}
+
+@keyframes grid-travel-1 {
+  0%   { transform: translate(100px, 100px); }
+  12%  { transform: translate(550px, 100px); }
+  25%  { transform: translate(550px, 350px); }
+  38%  { transform: translate(250px, 350px); }
+  50%  { transform: translate(250px, 600px); }
+  62%  { transform: translate(750px, 600px); }
+  75%  { transform: translate(750px, 200px); }
+  88%  { transform: translate(400px, 200px); }
+  100% { transform: translate(100px, 100px); }
+}
+
+@keyframes grid-travel-2 {
+  0%   { transform: translate(900px, 200px); }
+  18%  { transform: translate(500px, 200px); }
+  36%  { transform: translate(500px, 500px); }
+  54%  { transform: translate(1050px, 500px); }
+  72%  { transform: translate(1050px, 300px); }
+  90%  { transform: translate(700px, 300px); }
+  100% { transform: translate(900px, 200px); }
+}
+
+@keyframes grid-travel-3 {
+  0%   { transform: translate(300px, 400px); }
+  20%  { transform: translate(800px, 400px); }
+  40%  { transform: translate(800px, 700px); }
+  60%  { transform: translate(150px, 700px); }
+  80%  { transform: translate(150px, 150px); }
+  100% { transform: translate(300px, 400px); }
+}
+
+/* Section accent stripe */
+.section-accent-bar {
+  width: 40px;
+  height: 3px;
+  background: var(--black);
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.section-accent-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+.section:hover .section-accent-bar::after {
+  transform: translateX(0);
+}
+
+/* Hero stat counters */
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.hero-stat-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.hero-stat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+/* Skill card bottom-up hover fill */
+.skill-fill-card {
+  position: relative;
+  overflow: hidden;
+}
+.skill-fill-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--black);
+  transform: translateY(100%);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 0;
+}
+.skill-fill-card:hover::before {
+  transform: translateY(0);
+}
+.skill-fill-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Marquee hover speed change */
+.marquee-container:hover .marquee-content {
+  animation-duration: 15s;
+}
+
+/* Underline link hover */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--black);
+  transition: width 0.3s ease;
+}
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* Contact input accent focus */
+.contact-input:focus {
+  background-color: var(--black) !important;
+  color: var(--beige) !important;
+  outline: 2px solid var(--accent) !important;
+  outline-offset: -2px;
+}
+
+/* Corner decorators */
+.corner-tl, .corner-br {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+.corner-tl {
+  top: 12px; left: 12px;
+  border-top: 1.5px solid var(--black);
+  border-left: 1.5px solid var(--black);
+}
+.corner-br {
+  bottom: 12px; right: 12px;
+  border-bottom: 1.5px solid var(--black);
+  border-right: 1.5px solid var(--black);
+}
+
+/* ── Gamified Additions ── */
+
+/* Typewriter caret blink (defined in Hero inline, but keep global fallback) */
+@keyframes caretBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Pulsing availability ping */
+@keyframes pingPulse {
+  0%, 100% { transform: scale(1);   opacity: 0.75; }
+  60%       { transform: scale(2.4); opacity: 0; }
+}
+
+/* Glitch overlay flickers */
+@keyframes glitch1 {
+  0%   { clip-path: inset(10% 0 70% 0); transform: translateX(-4px); }
+  33%  { clip-path: inset(50% 0 20% 0); transform: translateX(3px); }
+  66%  { clip-path: inset(20% 0 50% 0); transform: translateX(-2px); }
+  100% { opacity: 0; }
+}
+@keyframes glitch2 {
+  0%   { clip-path: inset(60% 0 5% 0);  transform: translateX(4px); }
+  50%  { clip-path: inset(30% 0 40% 0); transform: translateX(-3px); }
+  100% { opacity: 0; }
+}
+
+/* Navbar active underline slide-in */
+@keyframes slideIn {
+  from { transform: scaleX(0); transform-origin: left; }
+  to   { transform: scaleX(1); transform-origin: left; }
+}
+
+/* Timeline draw-down line */
+.timeline-connector {
+  position: relative;
+}
+.timeline-connector::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 0;
+  background: var(--black);
+  transition: height 1.2s ease;
+}
+.timeline-connector.visible::before {
+  height: 100%;
+}
+
+/* Scroll progress bar accent */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--black);
+  transform-origin: 0%;
+  z-index: 9999;
+}
+
+/* Gamified filter button active dot */
+.filter-btn-active::after {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* Skill pill bounce on hover */
+.skill-pill:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 4px 0 rgba(18,18,18,0.15);
+}
+
+
+
 

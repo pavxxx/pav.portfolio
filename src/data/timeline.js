@@ -1,6 +1,12 @@
 export const timelineData = {
   experience: [
     {
+      role: "Full Stack Development Intern",
+      company: "InQ Technologies Pvt Ltd",
+      period: "Jun 2026 – Jul 2026",
+      description: "Developed end-to-end features for web applications using full-stack web technologies, collaborating on frontend UI design and backend API integration."
+    },
+    {
       role: "Web Development Intern (Remote)",
       company: "Prodigy Infotech",
       period: "Aug 2025 – Sep 2025",

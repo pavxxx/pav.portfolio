@@ -1,7 +1,7 @@
 export const skillCategories = [
   {
     title: "Languages",
-    skills: ["Python", "Java", "C", "JavaScript"],
+    skills: ["Python", "C", "Java", "JavaScript"],
     index: "01"
   },
   {
@@ -10,18 +10,23 @@ export const skillCategories = [
     index: "02"
   },
   {
-    title: "Databases",
-    skills: ["MySQL", "MongoDB", "Firebase Firestore"],
+    title: "Backend",
+    skills: ["FastAPI", "Flask", "REST APIs", "JWT"],
     index: "03"
+  },
+  {
+    title: "Databases",
+    skills: ["MySQL", "SQLite", "MongoDB"],
+    index: "04"
   },
   {
     title: "Core",
     skills: ["Data Structures and Algorithms", "OOP", "DBMS"],
-    index: "04"
+    index: "05"
   },
   {
     title: "Tools",
-    skills: ["Git", "GitHub", "Figma", "Vercel", "VS Code"],
-    index: "05"
+    skills: ["Git", "GitHub", "VS Code", "Figma", "Vercel"],
+    index: "06"
   }
 ];

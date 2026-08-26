@@ -26,6 +26,18 @@ function Navbar() {
     return () => observer.disconnect();
   }, []);
 
+  const handleNavClick = (e, id) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      if (window.lenis) {
+        window.lenis.scrollTo(el, { duration: 1.2 });
+      } else {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <nav className="navbar hover-target">
       <div className="nav-brand">Pavithra.dev</div>
@@ -34,6 +46,7 @@ function Navbar() {
           <li key={id} style={{ position: "relative" }}>
             <a
               href={`#${id}`}
+              onClick={(e) => handleNavClick(e, id)}
               className="hover-target"
               style={{
                 opacity: active === id ? 1 : 0.5,

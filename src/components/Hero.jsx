@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
+import FunResumeButton from "./FunResumeButton";
 
 /* ── Count-up hook ── */
 function useCountUp(target, duration = 1200) {
@@ -47,53 +48,39 @@ function useTypewriter(text, speed = 40, delay = 1800) {
   return displayed;
 }
 
-/* ── Magnetic button ── */
+/* ── Standard CTA button ── */
 function MagneticButton({ href, children, style }) {
-  const ref = useRef(null);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = useCallback((e) => {
-    const rect = ref.current.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    setPos({ x: (e.clientX - cx) * 0.28, y: (e.clientY - cy) * 0.28 });
-  }, []);
-
-  const handleMouseLeave = useCallback(() => setPos({ x: 0, y: 0 }), []);
+  const handleClick = (e) => {
+    if (href?.startsWith("#")) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        if (window.lenis) {
+          window.lenis.scrollTo(target, { duration: 1.2 });
+        } else {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }
+  };
 
   return (
-    <motion.a
-      ref={ref}
+    <a
       href={href}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      animate={{ x: pos.x, y: pos.y }}
-      transition={{ type: "spring", stiffness: 350, damping: 22 }}
-      whileTap={{ scale: 0.94 }}
+      onClick={handleClick}
       className="btn-invert hover-target"
       style={style}
     >
       {children}
-    </motion.a>
+    </a>
   );
 }
 
-/* ── Glitch heading ── */
+/* ── Heading ── */
 function GlitchHeading({ children, className, style }) {
-  const [glitch, setGlitch] = useState(false);
   return (
-    <h1
-      className={className}
-      style={{ ...style, position: "relative", cursor: "default" }}
-      onMouseEnter={() => { setGlitch(true); setTimeout(() => setGlitch(false), 500); }}
-    >
+    <h1 className={className} style={style}>
       {children}
-      {glitch && (
-        <>
-          <span aria-hidden style={{ position: "absolute", inset: 0, color: "var(--accent)", clipPath: "inset(30% 0 40% 0)", transform: "translateX(-3px)", opacity: 0.7, animation: "glitch1 0.2s steps(1) forwards", pointerEvents: "none" }}>{children}</span>
-          <span aria-hidden style={{ position: "absolute", inset: 0, color: "var(--black)", clipPath: "inset(60% 0 10% 0)", transform: "translateX(3px)", opacity: 0.5, animation: "glitch2 0.25s steps(1) forwards", pointerEvents: "none" }}>{children}</span>
-        </>
-      )}
     </h1>
   );
 }
@@ -143,8 +130,8 @@ function Hero() {
                   lineHeight: 1.0,
                 }}
               >
-                UI / UX<br />
-                <span className="serif-italic" style={{ color: "var(--black)", textTransform: "lowercase" }}>&amp; frontend</span><br />
+                UI / UX designer<br />
+                <span className="serif-italic" style={{ color: "var(--black)", textTransform: "lowercase" }}>&amp; Fullstack</span><br />
                 DEVELOPER.
               </GlitchHeading>
             </motion.div>
@@ -185,13 +172,16 @@ function Hero() {
                 <StatCounter value={10} label="Technologies" suffix="+" />
               </div>
 
-              {/* Right: magnetic CTA */}
-              <MagneticButton
-                href="#work"
-                style={{ padding: "12px 24px", textDecoration: "none", display: "inline-block", fontWeight: 600, fontSize: "0.9rem", textTransform: "uppercase" }}
-              >
-                View Works
-              </MagneticButton>
+              {/* Right: magnetic CTAs */}
+              <div style={{ display: "flex", gap: "12px", alignItems: "center", flexWrap: "wrap" }}>
+                <MagneticButton
+                  href="#work"
+                  style={{ padding: "12px 24px", textDecoration: "none", display: "inline-block", fontWeight: 600, fontSize: "0.9rem", textTransform: "uppercase" }}
+                >
+                  View Works
+                </MagneticButton>
+                <FunResumeButton />
+              </div>
             </motion.div>
 
             {/* Typewriter tagline */}
@@ -204,7 +194,7 @@ function Hero() {
               <span style={{ borderRight: "1.5px solid var(--black)", marginLeft: "2px", animation: "caretBlink 0.9s step-end infinite" }} />
             </motion.div>
           </motion.div>
-          
+
           {/* Right column empty as requested */}
           <div style={{ display: "flex", alignItems: "center", paddingTop: "60px", flexShrink: 0 }}>
           </div>
